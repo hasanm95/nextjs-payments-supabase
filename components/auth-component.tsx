@@ -23,8 +23,8 @@ export default function AuthComponent() {
 		<div className="flex items-center justify-center w-full h-[70vh]">
 			<div className=" w-96 rounded-md border p-5 space-y-5 relative bg-slate-900">
 				<div className="flex items-center gap-2">
-					<KeyRound className="fill-accent "/>
-					<h1 className="text-2xl text-accent font-bold">Next + Supabase</h1>
+					<KeyRound className="fill-white "/>
+					<h1 className="text-2xl text-white font-bold">Next + Supabase</h1>
 				</div>
 
 				<p className="text-sm text-gray-300">
@@ -32,14 +32,14 @@ export default function AuthComponent() {
 				</p>
 				<div className="flex flex-col gap-5">
 					<Button
-						className=" w-full flex items-center gap-2 "
+						className=" w-full flex items-center gap-2 cursor-pointer"
 						variant="outline"
 						onClick={() => handleLoginWithOAuth("github")}
 					>
 						<FaGithub /> Github
 					</Button>
 					<Button
-						className=" w-full flex items-center gap-2 "
+						className=" w-full flex items-center gap-2 cursor-pointer"
 						variant="outline"
 						onClick={() => handleLoginWithOAuth("google")}
 					>
