@@ -2,7 +2,6 @@
 import { CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Checkout from "./checkout";
-// import { STRIPE_PRICE_IDS } from "@/lib/stripe";
 
 export default function Price() {
 	const prices = [

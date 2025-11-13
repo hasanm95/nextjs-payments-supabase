@@ -28,7 +28,7 @@ export default function useUser() {
 				// fetch user information profile
 				const { data: user } = await supabase
 					.from("profile")
-					.select("*")
+					.select("*,subscription(*)")
 					.eq("id", data.session.user.id)
 					.single();
 
