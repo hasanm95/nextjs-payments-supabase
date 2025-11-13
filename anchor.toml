@@ -1,0 +1,10 @@
+[lcl-host]
+realm-apid = 'localhost'
+
+[org]
+apid = 'hasanm95'
+
+[service]
+apid = 'nextjs-payments-supabase'
+category = 'javascript'
+cert-style = 'acme'
