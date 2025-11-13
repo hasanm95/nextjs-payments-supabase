@@ -1,6 +1,7 @@
 "use client";
 import { CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Checkout from "./checkout";
 // import { STRIPE_PRICE_IDS } from "@/lib/stripe";
 
 export default function Price() {
@@ -15,8 +16,21 @@ export default function Price() {
 				"Improved communication",
 				"Enhanced collaboration",
 			],
+			amount: 0,
+		},
+		{
+			title: "Premium",
+			description:
+				"Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+			benefits: [
+				"Improved productivity",
+				"Enhanced performance",
+				"Cost savings",
+				"Improved communication",
+				"Enhanced collaboration",
+			],
 			amount: 10,
-			priceId: null,
+			priceId: "premium" as const,
 		},
 		{
 			title: "Pro",
@@ -30,21 +44,7 @@ export default function Price() {
 				"Enhanced collaboration",
 			],
 			amount: 20,
-			// priceId: STRIPE_PRICE_IDS['pro'],
-		},
-		{
-			title: "Premium",
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-			benefits: [
-				"Improved productivity",
-				"Enhanced performance",
-				"Cost savings",
-				"Improved communication",
-				"Enhanced collaboration",
-			],
-			amount: 100,
-			// priceId: STRIPE_PRICE_IDS['premium'],
+			priceId: "pro" as const,
 		},
 	];
 
@@ -87,6 +87,7 @@ export default function Price() {
 									);
 								})}
 							</div>
+                            <Checkout priceId={price.priceId} amount={price.amount} />
 						</div>
 					);
 				})}
