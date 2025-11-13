@@ -12,31 +12,6 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "13.0.5"
   }
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       profile: {
@@ -62,6 +37,38 @@ export type Database = {
           name?: string | null
         }
         Relationships: []
+      }
+      subscription: {
+        Row: {
+          created_at: string
+          customer_id: string | null
+          email: string
+          end_at: string | null
+          subscription_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_id?: string | null
+          email: string
+          end_at?: string | null
+          subscription_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string | null
+          email?: string
+          end_at?: string | null
+          subscription_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscription_email_fkey"
+            columns: ["email"]
+            isOneToOne: true
+            referencedRelation: "profile"
+            referencedColumns: ["email"]
+          },
+        ]
       }
     }
     Views: {
@@ -197,9 +204,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },

@@ -1,14 +1,14 @@
 "use client"
 
-import CheckoutPage from "@/components/checkout-page";
-import convertCurrency from "@/lib/convert-currency";
-import { Elements } from "@stripe/react-stripe-js";
+// import CheckoutPage from "@/components/checkout-page";
+// import convertCurrency from "@/lib/convert-currency";
+// import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
 }
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export default function Home() {
   const amount = 49.99;
@@ -23,7 +23,7 @@ export default function Home() {
         </h2>
       </div>
 
-      <Elements
+      {/* <Elements
         stripe={stripePromise}
         options={{
           mode: "payment",
@@ -32,7 +32,7 @@ export default function Home() {
         }}
       >
         <CheckoutPage amount={amount} />
-      </Elements>
+      </Elements> */}
     </main>
   );
 }
