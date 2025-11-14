@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-function InputWithButton() {
+function AddTodo() {
   return (
     <form className="flex w-full max-w-sm items-center gap-2">
       <Input type="text" placeholder="Add todo" />
@@ -11,4 +11,4 @@ function InputWithButton() {
     </form>
   )
 }
-export default InputWithButton
+export default AddTodo
