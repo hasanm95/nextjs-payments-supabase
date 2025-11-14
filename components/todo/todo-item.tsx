@@ -1,6 +1,7 @@
 import { deleteTodo, markCompltedTodo, updateTodo } from "@/lib/actions/todo";
 import { createClient } from "@/lib/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CheckIcon } from "lucide-react";
 import  { useState, useRef, useEffect } from "react";
 
 export interface TodoItemProps {
@@ -16,22 +17,22 @@ export default function TodoItem({
   email,
   is_completed = false,
 }: TodoItemProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [draft, setDraft] = useState(title);
-  const inputRef = useRef<HTMLInputElement | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [draft, setDraft] = useState(title);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    setDraft(title);
-  }, [title]);
+    useEffect(() => {
+        setDraft(title);
+    }, [title]);
 
-  useEffect(() => {
-    if (isEditing) inputRef.current?.focus();
-  }, [isEditing]);
+    useEffect(() => {
+        if (isEditing) inputRef.current?.focus();
+    }, [isEditing]);
 
-  function handleCancel() {
-    setDraft(title);
-    setIsEditing(false);
-  }
+    function handleCancel() {
+        setDraft(title);
+        setIsEditing(false);
+    }
 
 
     const queryClient = useQueryClient()
@@ -89,7 +90,11 @@ export default function TodoItem({
 
     const handleSave = async () => {
         const trimmed = draft.trim();
-        if (!trimmed || trimmed === title) return; 
+        if (!trimmed || trimmed === title) {
+            setDraft(title);
+            setIsEditing(false);
+            return
+        }; 
 
         const supabase = createClient()
         const { data } = await supabase.auth.getSession();
@@ -101,7 +106,7 @@ export default function TodoItem({
 
   return (
     <li
-      className="flex items-center justify-between gap-4 p-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow bg-white"
+      className="flex items-center justify-between gap-4 p-3 rounded-md shadow-sm hover:shadow-md transition-shadow bg-card text-card-foreground border"
       role="listitem"
     >
       <div className="flex items-start gap-3 min-w-0">
@@ -111,25 +116,9 @@ export default function TodoItem({
           aria-label={is_completed ? "Mark as not completed" : "Mark as completed"}
           disabled={!!is_completed}
           onClick={markCompleted}
-          className={`flex-none w-10 h-10 rounded-lg border-2 flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-offset-1"
-            ${is_completed ? "border-green-400 bg-green-50" : "border-gray-200 bg-white"}`}
+          className={`border-muted bg-card flex-none w-10 h-10 rounded-md border flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-offset-1`}
         >
-          {/* visual check */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            className="w-5 h-5"
-            aria-hidden
-          >
-            <path
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d={!!is_completed ? "M5 13l4 4L19 7" : "M5 12h14"}
-            />
-          </svg>
+            {is_completed && <CheckIcon/>}
         </button>
 
         {/* Content */}
@@ -144,18 +133,18 @@ export default function TodoItem({
                   if (e.key === "Enter") handleSave();
                   if (e.key === "Escape") handleCancel();
                 }}
-                className="min-w-0 w-full p-2 rounded-md border border-black text-black focus:outline-none focus:ring-2 focus:ring-offset-1"
+                className="min-w-0 w-full p-2 rounded-md border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-offset-1"
                 aria-label="Edit todo title"
               />
               <button
                 onClick={handleSave}
-                className="px-3 py-1 rounded-lg text-sm text-black font-medium border hover:bg-gray-50"
+                className="px-3 py-1 rounded-md text-sm font-medium border hover:bg-accent"
               >
                 Save
               </button>
               <button
                 onClick={handleCancel}
-                className="px-3 py-1 rounded-lg text-sm text-gray-500 hover:bg-gray-50"
+                className="px-3 py-1 rounded-md text-sm text-muted-foreground hover:bg-accent"
               >
                 Cancel
               </button>
@@ -164,19 +153,17 @@ export default function TodoItem({
             <>
               <div className="flex items-center gap-2">
                 <h3
-                  className={`truncate text-sm font-semibold leading-tight min-w-0"
-                    ${is_completed ? "line-through text-gray-400" : "text-gray-900"}`}
+                  className={`truncate text-sm font-semibold leading-tight min-w-0 ${is_completed ? "line-through text-muted-foreground" : "text-foreground"}`}
                 >
                   {title}
                 </h3>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full self-start border text-gray-500 bg-gray-50"
-                    ${is_completed ? "opacity-60" : ""}`}
+                  className={`text-xs px-2 py-0.5 rounded-full self-start border text-muted-foreground bg-muted ${is_completed ? "opacity-60" : ""}`}
                 >
                   {is_completed ? "Done" : "Pending"}
                 </span>
               </div>
-              <p className="text-xs text-gray-500 truncate">{email}</p>
+              <p className="text-xs text-muted-foreground truncate">{email}</p>
             </>
           )}
         </div>
@@ -187,7 +174,7 @@ export default function TodoItem({
         <button
           onClick={() => setIsEditing((s) => !s)}
           aria-label={isEditing ? "Close editor" : "Edit todo"}
-          className="px-3 py-1 rounded-lg border text-sm text-black hover:bg-gray-50"
+          className="px-3 py-1 rounded-md border text-sm hover:bg-accent"
         >
           {isEditing ? "Close" : "Edit"}
         </button>
@@ -195,7 +182,8 @@ export default function TodoItem({
         <button
           onClick={deleteTodoHandler}
           aria-label="Delete todo"
-          className="px-3 py-1 rounded-lg border text-sm text-red-600 hover:bg-red-50"
+          className="px-3 py-1 rounded-md border text-sm text-destructive hover:bg-destructive/10"
+          disabled={isPending}
         >
           Delete
         </button>

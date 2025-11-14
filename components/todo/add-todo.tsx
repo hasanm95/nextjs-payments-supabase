@@ -41,12 +41,12 @@ function AddTodo() {
     return (
         <form ref={formRef} className="flex flex-col gap-2" onSubmit={submitHandler}>
             <div className="flex gap-2.5 w-full">
-                <Input type="text" name="title" placeholder="Add todo" disabled={isPending} className="w-full"  />
+                <Input type="text" name="title" placeholder="Add a task" disabled={isPending} className="w-full" />
                 <Button type="submit" variant="outline" disabled={isPending}>
                     Submit
                 </Button>
             </div>
-            {isError && <p className="text-red-700">{error.message}</p>}
+            {isError && <p className="text-destructive">{error.message}</p>}
         </form>
     )
 }
