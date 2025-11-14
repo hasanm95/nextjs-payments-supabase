@@ -1,38 +1,29 @@
 "use client"
 
-// import CheckoutPage from "@/components/checkout-page";
-// import convertCurrency from "@/lib/convert-currency";
-// import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import Price from "@/components/subscription/price"
+import useUser from "./hook/useUser";
 
-if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
-  throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
-}
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+const PricingPage = () => {
+  const { data: user, isLoading } = useUser();
+  if (isLoading) {
+    return <></>;
+  }
 
-export default function Home() {
-  const amount = 49.99;
+  const isActive = !user?.subscription?.end_at ? false : new Date(user.subscription.end_at) > new Date();
 
   return (
-    <main className="max-w-6xl mx-auto p-10 text-white text-center border m-10 rounded-md bg-linear-to-tr from-blue-500 to-purple-500">
-      <div className="mb-10">
-        <h1 className="text-4xl font-extrabold mb-2">Hasan</h1>
-        <h2 className="text-2xl">
-          has requested
-          <span className="font-bold"> ${amount}</span>
-        </h2>
-      </div>
-
-      {/* <Elements
-        stripe={stripePromise}
-        options={{
-          mode: "payment",
-          amount: convertCurrency(amount),
-          currency: "usd",
-        }}
-      >
-        <CheckoutPage amount={amount} />
-      </Elements> */}
-    </main>
-  );
+    <div className="min-h-screen by-gray-50 flex flex-col items-center py-12 px-4">
+      {isActive ? 
+      (
+        <p>This is protected data</p>
+      ) : (
+        <>
+            <h1 className="text-4xl font-bold mb-8">You need to subscribe to see data</h1>
+            <Price />
+        </>
+      )}
+    </div>
+  )
 }
+
+export default PricingPage
