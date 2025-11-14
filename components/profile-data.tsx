@@ -14,6 +14,7 @@ export default function ProfileData() {
 			const data = JSON.parse(
 				await manageBilling(user?.subscription?.customer_id)
 			);
+			console.log({data})
 			window.location.href = data.url;
 		}
 	};

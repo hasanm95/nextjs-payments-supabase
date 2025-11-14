@@ -47,6 +47,7 @@ export async function POST(req: NextRequest){
 				break;
 			case "customer.subscription.deleted":
 				const deleteSubscription = event.data.object;
+				console.log({deleteSubscription})
 				const cancelError = await onSubCancel(deleteSubscription.id);
 				if (cancelError) {
 					console.log(cancelError);
