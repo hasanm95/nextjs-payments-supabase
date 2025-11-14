@@ -45,9 +45,9 @@ export async function POST(req: NextRequest){
 					return Response.json({ error: error.message });
 				}
 				break;
+
 			case "customer.subscription.deleted":
 				const deleteSubscription = event.data.object;
-				console.log({deleteSubscription})
 				const cancelError = await onSubCancel(deleteSubscription.id);
 				if (cancelError) {
 					console.log(cancelError);
@@ -88,6 +88,7 @@ async function onSubCancel(subscription_id: string) {
 		.update({
 			customer_id: null,
 			subscription_id: null,
+			end_at: null
 		})
 		.eq("subscription_id", subscription_id);
 	return error;
