@@ -1,9 +1,11 @@
-import InputWithButton from './input-todo'
+import AddTodo from './add-todo'
+import TodoList from './todo-list'
 
 const Todo = () => {
   return (
-    <div>
-        <InputWithButton/>
+    <div className='flex flex-col gap-4'>
+        <AddTodo/>
+        <TodoList/>
     </div>
   )
 }

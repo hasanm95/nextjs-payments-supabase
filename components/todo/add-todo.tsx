@@ -4,18 +4,20 @@ import useUser from "@/app/hook/useUser"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { createTodo } from "@/lib/actions/todo"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ReactElement, useRef } from "react"
 
 function AddTodo() {
     const { data } = useUser();
     const formRef = useRef<HTMLFormElement>(null); 
-    // const queryClient = useQueryClient()
+    const queryClient = useQueryClient()
 
     const { mutate, isPending, isError, error} = useMutation({
         mutationFn: createTodo,
         onSuccess: () => {
-            // queryClient.invalidateQueries(["todos"])
+            queryClient.invalidateQueries({
+                queryKey: ["todos"]
+            })
             formRef.current?.reset()
         },
         onError: (err) => {
@@ -37,9 +39,9 @@ function AddTodo() {
     }
 
     return (
-        <form ref={formRef} className="flex flex-col w-full max-w-sm items-center gap-2" onSubmit={submitHandler}>
-            <div className="flex gap-2.5">
-                <Input type="text" name="title" placeholder="Add todo" disabled={isPending} />
+        <form ref={formRef} className="flex flex-col gap-2" onSubmit={submitHandler}>
+            <div className="flex gap-2.5 w-full">
+                <Input type="text" name="title" placeholder="Add todo" disabled={isPending} className="w-full"  />
                 <Button type="submit" variant="outline" disabled={isPending}>
                     Submit
                 </Button>
