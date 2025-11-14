@@ -49,6 +49,7 @@ export default function Price() {
 
 	return (
 		<div>
+            <h1 className="text-4xl font-bold mb-8">You need to subscribe to see data</h1>
 			<div className=" grid grid-cols-1 md:grid-cols-3 gap-5">
 				{prices.map((price, index) => {
 					const isPopular = index === 1;
